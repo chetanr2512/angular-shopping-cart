@@ -1,0 +1,209 @@
+/* Form styling with Tailwind utilities */
+
+/* Form labels - ensure they're always visible and prominent */
+.form-label {
+  @apply block text-sm font-semibold text-gray-700 mb-2;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Required field indicator */
+.form-label .text-red-500 {
+  @apply font-bold;
+}
+
+/* Form groups */
+.form-group {
+  @apply mb-4;
+}
+
+/* Form inputs base styling */
+.form-input {
+  @apply block w-full px-3 py-3 text-sm border border-gray-300 rounded-lg shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white;
+}
+
+/* Form input states */
+.form-input:hover {
+  @apply border-gray-400;
+}
+
+.form-input.error {
+  @apply border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50;
+}
+
+.form-input.success {
+  @apply border-green-500 focus:border-green-500 focus:ring-green-500 bg-green-50;
+}
+
+/* Textarea specific styling */
+textarea.form-input {
+  @apply resize-y;
+  min-height: 80px;
+}
+
+/* Input with icons */
+.form-input{
+  @apply pl-10;
+}
+
+/* Validation messages */
+.validation-message {
+  @apply flex items-center text-sm mt-1;
+}
+
+.validation-error {
+  @apply text-red-600;
+}
+
+.validation-success {
+  @apply text-green-600;
+}
+
+.validation-pending {
+  @apply text-primary-600;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  @apply w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2 transition-colors;
+}
+
+input[type="checkbox"]:checked {
+  @apply bg-primary-600 border-primary-600;
+}
+
+/* Button states */
+.btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Loading button animation */
+.btn-loading {
+  @apply pointer-events-none;
+}
+
+.btn-loading .fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Form card styling */
+.form-card {
+  @apply bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden;
+}
+
+/* Input focus ring enhancement */
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Error state enhancement */
+.form-input.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Success state enhancement */
+.form-input.success:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Icon styling in inputs */
+.input-icon {
+  @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400;
+}
+
+/* Form validation feedback */
+.invalid-feedback {
+  @apply block text-sm text-red-600 mt-1;
+}
+
+.valid-feedback {
+  @apply block text-sm text-green-600 mt-1;
+}
+
+/* Smooth transitions */
+.form-input,
+.btn,
+input[type="checkbox"] {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .form-label {
+    @apply text-base font-semibold;
+  }
+
+  .form-input {
+    @apply py-3 text-base;
+  }
+
+  .btn {
+    @apply w-full py-3 text-base;
+  }
+
+  .form-actions {
+    @apply flex-col space-y-3;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .form-label {
+    @apply text-black font-bold;
+  }
+
+  .form-input {
+    @apply border-2 border-black;
+  }
+
+  .form-input.error {
+    @apply border-red-700;
+  }
+
+  .form-input.success {
+    @apply border-green-700;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .form-input,
+  .btn,
+  input[type="checkbox"] {
+    transition: none;
+  }
+
+  .fa-spinner {
+    animation: none;
+  }
+}
+
+/* Focus indicators for accessibility */
+.form-input:focus,
+.btn:focus,
+input[type="checkbox"]:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
