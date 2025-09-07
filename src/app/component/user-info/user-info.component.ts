@@ -155,4 +155,36 @@ export class UserInfoComponent implements OnInit, OnDestroy  {
 
     return formErrors;
   }
+
+  onDateChange(e : Event): any {
+    const input = e.target as HTMLInputElement;
+    const dob = input.value;
+    const currentDate = new Date;
+    const age  = this.calculateAge(dob);
+
+    if (age !== null) {
+      const ageControl = this.userForm.get('age');
+      ageControl?.setValue(age);              
+      ageControl?.markAsTouched();            
+      ageControl?.updateValueAndValidity();
+    }
+  }
+
+  private calculateAge(dob: string | Date): number | null {
+    if (!dob) return null;
+
+    const birthDate = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    // adjust if birthday hasn’t occurred yet this year
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
+    }
+
+    return age;
+  }
 }

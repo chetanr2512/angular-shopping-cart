@@ -5,7 +5,7 @@
       <div class="flex items-center">
         <a routerLink="/" class="flex items-center space-x-2 text-xl font-bold hover:text-yellow-400 transition-colors">
           <i class="fas fa-store text-yellow-400"></i>
-          <span>ShopEase</span>
+          <span>ShopKart</span>
         </a>
       </div>
 
@@ -45,7 +45,7 @@
       </div>
 
       <!-- Mobile menu button -->
-      <!-- <div class="md:hidden">
+      <div class="md:hidden">
         <button 
           type="button" 
           (click)="toggleMobileMenu()"
@@ -56,12 +56,12 @@
           <i class="fas fa-bars" *ngIf="!isMobileMenuOpen"></i>
           <i class="fas fa-times" *ngIf="isMobileMenuOpen"></i>
         </button>
-      </div> -->
+      </div>
     </div>
   </div>
 
   <!-- Mobile menu -->
-  <!-- <div class="md:hidden transition-all duration-300" [class.hidden]="!isMobileMenuOpen" id="mobile-menu">
+  <div class="md:hidden transition-all duration-300" [class.hidden]="!isMobileMenuOpen" id="mobile-menu">
     <div class="px-2 pt-2 pb-3 space-y-1 bg-primary-700">
       <a 
         routerLink="/" 
@@ -81,9 +81,9 @@
         <i class="fas fa-shopping-cart"></i>
         <span>Cart</span>
         <span 
-          *ngIf="(cartItemCount$ | async)! > 0"
+          *ngIf="(cartItemCount | async)! > 0"
           class="bg-yellow-400 text-primary-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center ml-auto">
-          {{ cartItemCount$ | async }}
+          {{ cartItemCount | async }}
         </span>
       </a>
 
@@ -96,5 +96,5 @@
         <span>Profile</span>
       </a>
     </div>
-  </div> -->
+  </div>
 </nav>

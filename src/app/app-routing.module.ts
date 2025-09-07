@@ -7,17 +7,17 @@ import { UserInfoComponent } from './component/user-info/user-info.component';
 const routes: Routes = [  {
     path: '',
     component: ProductListingComponent,
-    title: 'Products - ShopEase'
+    title: 'Products - ShopKart'
   },
   {
     path: 'cart',
     component: CartComponent,
-    title: 'Shopping Cart - ShopEase'
+    title: 'Shopping Cart - ShopKart'
   },
   {
     path: 'user-info',
     component: UserInfoComponent,
-    title: 'User Information - ShopEase'
+    title: 'User Information - ShopKart'
   },
   {
     path: '**',

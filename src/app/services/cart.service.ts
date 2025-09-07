@@ -17,6 +17,7 @@ export class CartService {
   public cartTotal = this.cartItems.pipe(
     map(items => items.reduce((total, item) => total + (item.product.price * item.quantity), 0))
   );
+  cartItems$: any;
 
   constructor(private localStorageService: LocalStorageService) {
     this.loadCartFromStorage();
@@ -26,7 +27,7 @@ export class CartService {
     return this.cartItemsSubject.value;
   }
 
-  private loadCartFromStorage(): void {
+   loadCartFromStorage(): void {
     try {
       const savedCart = this.localStorageService.getItem<CartItem[]>(this.cartStorageKey);
       if (savedCart && Array.isArray(savedCart)) {
@@ -39,9 +40,10 @@ export class CartService {
   }
 
   private updateCart(items: CartItem[]): void {
-    this.cartItemsSubject.next(items);
+     this.cartItemsSubject.next(items);
     this.saveCartToStorage(items);
   }
+  
 
   updateQuantity(productId: number, quantity: number): void {
     if (quantity <= 0) {
@@ -67,17 +69,23 @@ export class CartService {
   }
 
   addToCart(product: Product): void {
-    const currentItems = this.getCartItems();
-    const existingItemIndex = currentItems.findIndex(item => item.product.id === product.id);
+  const currentItems = this.getCartItems();
+  const existingIndex = currentItems.findIndex(item => item.product.id === product.id);
 
-    if (existingItemIndex !== -1) {
-      currentItems[existingItemIndex].quantity += 1;
-    } else {
-      currentItems.push({ product, quantity: 1 });
-    }
+  let updatedItems: CartItem[];
 
-    this.updateCart(currentItems);
+  if (existingIndex !== -1) {
+    updatedItems = currentItems.map((item, index) =>
+      index === existingIndex ? { ...item, quantity: item.quantity + 1 } : item
+    );
+  } else {
+    updatedItems = [...currentItems, { product, quantity: 1 }];
   }
+
+  this.updateCart(updatedItems);
+}
+
+
    removeFromCart(productId: number): void {
     const currentItems = this.getCartItems();
     const updatedItems = currentItems.filter(item => item.product.id !== productId);
