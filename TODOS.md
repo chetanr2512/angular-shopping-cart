@@ -10,5 +10,6 @@
 - [ ] **Features** - Storing the data both form and the cart data to an external DB so that the state is not lost when browser is closed
 - [ ] **E2E Tests** - Critical user flow testing with Playwright or Cypress
 - [ ] **User Authentication** - Authenticating the user either using Gmail or Phone number.
+- [ ] **Product Variation and Sizes** - Add varaints to the products and also sizes so the user can choose.
 
 
