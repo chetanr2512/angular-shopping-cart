@@ -1,48 +1,100 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary-400 fixed-top">
-  <div class="container">
-    <a class="navbar-brand fw-bold" routerLink="/">
-      <i class="fas fa-store me-2"></i>
-      ShopKart
-    </a>
+<nav class="bg-primary-400 text-white shadow-lg fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo/Brand -->
+      <div class="flex items-center">
+        <a routerLink="/" class="flex items-center space-x-2 text-xl font-bold hover:text-yellow-400 transition-colors">
+          <i class="fas fa-store text-yellow-400"></i>
+          <span>ShopEase</span>
+        </a>
+      </div>
 
-    <button 
-      class="navbar-toggler" 
-      type="button" 
-      data-bs-toggle="collapse" 
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav" 
-      aria-expanded="false" 
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <!-- Desktop Navigation -->
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-4">
+          <a 
+            routerLink="/" 
+            routerLinkActive="text-yellow-400" 
+            [routerLinkActiveOptions]="{exact:true}"
+            class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover: hover:text-yellow-400 transition-colors">
+            <i class="fas fa-home"></i>
+            <span>Products</span>
+          </a>
 
-    <div class="navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-            <i class="fas fa-home me-1"></i>
-            Products
+          <a 
+            routerLink="/cart" 
+            routerLinkActive=" text-yellow-400"
+            class="relative flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover: hover:text-yellow-400 transition-colors">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Cart</span>
+            <span 
+              *ngIf="(cartItemCount| async)! > 0"
+              class="absolute -top-1 -right-1 bg-yellow-400 text-primary-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+              {{ cartItemCount | async }}
+            </span>
           </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link position-relative" routerLink="/cart" routerLinkActive="active">
-            <i class="fas fa-shopping-cart me-1"></i>
-            Cart
-            <!-- <span 
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark"
-              *ngIf="(cartItemCount$ | async)! > 0">
-              {{ cartItemCount$ | async }}
-              <span class="visually-hidden">items in cart</span>
-            </span> -->
+
+          <a 
+            routerLink="/user-info" 
+            routerLinkActive=" text-yellow-400"
+            class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium hover: hover:text-yellow-400 transition-colors">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
           </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/user-info" routerLinkActive="active">
-            <i class="fas fa-user me-1"></i>
-            Profile
-          </a>
-        </li>
-      </ul>
+        </div>
+      </div>
+
+      <!-- Mobile menu button -->
+      <!-- <div class="md:hidden">
+        <button 
+          type="button" 
+          (click)="toggleMobileMenu()"
+          class="inline-flex items-center justify-center p-2 rounded-md hover:bg-primary-700 hover:text-yellow-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-colors"
+          aria-controls="mobile-menu" 
+          [attr.aria-expanded]="isMobileMenuOpen">
+          <span class="sr-only">Open main menu</span>
+          <i class="fas fa-bars" *ngIf="!isMobileMenuOpen"></i>
+          <i class="fas fa-times" *ngIf="isMobileMenuOpen"></i>
+        </button>
+      </div> -->
     </div>
   </div>
+
+  <!-- Mobile menu -->
+  <!-- <div class="md:hidden transition-all duration-300" [class.hidden]="!isMobileMenuOpen" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 bg-primary-700">
+      <a 
+        routerLink="/" 
+        routerLinkActive="bg-primary-800 text-yellow-400" 
+        [routerLinkActiveOptions]="{exact:true}"
+        (click)="toggleMobileMenu()"
+        class="flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium hover:bg-primary-800 hover:text-yellow-400 transition-colors">
+        <i class="fas fa-home"></i>
+        <span>Products</span>
+      </a>
+
+      <a 
+        routerLink="/cart" 
+        routerLinkActive="bg-primary-800 text-yellow-400"
+        (click)="toggleMobileMenu()"
+        class="relative flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium hover:bg-primary-800 hover:text-yellow-400 transition-colors">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Cart</span>
+        <span 
+          *ngIf="(cartItemCount$ | async)! > 0"
+          class="bg-yellow-400 text-primary-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center ml-auto">
+          {{ cartItemCount$ | async }}
+        </span>
+      </a>
+
+      <a 
+        routerLink="/user-info" 
+        routerLinkActive="bg-primary-800 text-yellow-400"
+        (click)="toggleMobileMenu()"
+        class="flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium hover:bg-primary-800 hover:text-yellow-400 transition-colors">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </a>
+    </div>
+  </div> -->
 </nav>

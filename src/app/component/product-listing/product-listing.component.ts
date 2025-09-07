@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { combineLatest, debounceTime, distinctUntilChanged, Observable, startWith, Subject, switchMap, takeUntil } from 'rxjs';
 import { Product } from 'src/app/models/product';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -19,7 +20,7 @@ export class ProductListingComponent implements OnInit {
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
 
-  constructor(private productService: ProductService){
+  constructor(private productService: ProductService, private cartService : CartService){
     this.products = this.productService.products;
      this.loading = this.productService.loading;
     this.error = this.productService.error;
@@ -73,7 +74,7 @@ export class ProductListingComponent implements OnInit {
     this.isAdding = product.id;
 
     // Add to cart with visual feedback
-    // this.cartService.addToCart(product);
+    this.cartService.addToCart(product);
 
     // Simulate loading state
     setTimeout(() => {
