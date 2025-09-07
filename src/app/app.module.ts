@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { ProductListingComponent } from './component/product-listing/product-listing.component';
 import { CartComponent } from './component/cart/cart.component';
@@ -21,7 +21,10 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, FormsModule, HttpClientModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule, 
+    ReactiveFormsModule,
     
   ],
   providers: [],

@@ -8,10 +8,167 @@
       </h1>
       <p class="mt-2 text-gray-600">Review your items and proceed to checkout</p>
     </div>
-    <div class="bg-gray-400 text-white px-4 py-2 -mt-8 rounded-full text-sm font-medium">
-      <!-- {{ (filteredProducts | async)?.length || 0 }} items -->
+    <div class="bg-gray-100 text-zinc-700 px-4 py-2 -mt-2 rounded-full text-sm font-medium">
+      {{ (cartItems | async)?.length || 0 }} items
     </div>
   </div>
+
+  <div *ngIf="(cartItems | async)?.length! > 0; else emptyCart" class="lg:grid lg:grid-cols-12 lg:gap-8">
+    <!-- Cart Items List -->
+    <div class="lg:col-span-8">
+      <div class="card border border-gray-200 rounded-lg overflow-hidden">
+        <!-- Cart Header -->
+        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-900">Cart Items</h2>
+        </div>
+
+        <!-- Cart Items -->
+        <div class="divide-y divide-gray-200">
+          <div 
+            *ngFor="let item of cartItems | async; trackBy: trackByCartItem" 
+            class="p-6 hover:bg-gray-50 transition-colors duration-150">
+            <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+
+              <!-- Product Image -->
+              <div class="flex-shrink-0">
+                <img 
+                  [src]="item.product.image" 
+                  [alt]="item.product.title"
+                  class="w-20 h-20 object-contain bg-gray-100 rounded-lg p-2"
+                  (error)="onImageError($event)">
+              </div>
+
+              <!-- Product Details -->
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold text-gray-900 mb-1 line-clamp-2">
+                  {{ item.product.title }}
+                </h3>
+                <p class="text-xs text-gray-500 mb-2 capitalize">{{ item.product.category }}</p>
+                <div class="text-lg font-bold text-green-600">
+                  ${{ item.product.price | number:'1.2-2' }}
+                </div>
+              </div>
+
+              <!-- Quantity Controls -->
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                  <button 
+                    class="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none"
+                    type="button"
+                    (click)="decreaseQuantity(item.product.id)"
+                    [disabled]="item.quantity <= 1"
+                    [class.opacity-50]="item.quantity <= 1"
+                    [class.cursor-not-allowed]="item.quantity <= 1">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <input 
+                    type="number" 
+                    class="w-16 text-center py-2 border-0 focus:ring-0 text-sm"
+                    [value]="item.quantity"
+                    (blur)="onQuantityChange(item.product.id, $event)"
+                    min="1">
+                  <button 
+                    class="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none"
+                    type="button"
+                    (click)="increaseQuantity(item.product.id)">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Item Total and Remove -->
+              <div class="flex items-center justify-between sm:flex-col sm:items-end space-y-2">
+                <div class="text-lg font-bold text-gray-900">
+                  ${{ (item.product.price * item.quantity) | number:'1.2-2' }}
+                </div>
+                <button 
+                  class="text-red-600 hover:text-red-800 transition-colors p-2 rounded-lg hover:bg-red-50"
+                  (click)="removeItem(item.product.id)"
+                  title="Remove item">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="mt-8 lg:mt-0 lg:col-span-4">
+      <div class="card border border-gray-200 rounded-lg sticky top-24">
+        <!-- Summary Header -->
+        <div class="bg-primary-600 text-white px-6 py-4 rounded-t-lg">
+          <h2 class="text-lg font-semibold">Order Summary</h2>
+        </div>
+
+        <!-- Summary Details -->
+        <div class="p-6 space-y-4">
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-600">Items ({{ (cartItemCount | async) || 0 }}):</span>
+            <span class="font-medium">${{ (cartTotal | async) | number:'1.2-2' }}</span>
+          </div>
+
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-600">Shipping:</span>
+            <span class="font-medium text-green-600">FREE</span>
+          </div>
+
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-600">Tax:</span>
+            <span class="font-medium">Calculated at checkout</span>
+          </div>
+
+          <hr class="border-gray-200">
+
+          <div class="flex justify-between text-lg font-bold">
+            <span>Total:</span>
+            <span class="text-green-600">${{ (cartTotal | async) | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="p-6 pt-0 space-y-3">
+          <button class="btn btn-success w-full py-3 text-base font-semibold">
+            <i class="fas fa-credit-card mr-2"></i>
+            Proceed to Checkout
+          </button>
+
+          <button 
+            class="btn btn-outline w-full py-2 text-sm"
+            routerLink="/">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Continue Shopping
+          </button>
+
+          <button 
+            class="btn btn-danger w-full py-2 text-sm"
+            (click)="clearCart()"
+            *ngIf="(cartItems | async)?.length! > 0">
+            <i class="fas fa-trash mr-2"></i>
+            Clear Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyCart>
+    <div class="text-center py-16">
+      <div class="mb-6">
+        <i class="fas fa-shopping-cart text-gray-400 text-6xl"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
+      <p class="text-gray-600 mb-8 max-w-md mx-auto">
+        Looks like you haven't added any items to your cart yet. 
+        Start shopping to discover amazing products!
+      </p>
+      <a routerLink="/" class="btn btn-primary text-base py-3 px-8">
+        <i class="fas fa-store mr-2"></i>
+        Start Shopping
+      </a>
+    </div>
+  </ng-template>
 
  
 
