@@ -17,7 +17,6 @@ export class CartService {
   public cartTotal = this.cartItems.pipe(
     map(items => items.reduce((total, item) => total + (item.product.price * item.quantity), 0))
   );
-  cartItems$: any;
 
   constructor(private localStorageService: LocalStorageService) {
     this.loadCartFromStorage();

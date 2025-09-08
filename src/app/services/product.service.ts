@@ -32,7 +32,7 @@ export class ProductService {
       catchError((error: HttpErrorResponse) => {
         console.warn('API failed, using fallback data:', error.message);
         this.loadingSubject.next(false);
-        this.errorSubject.next('Using offline data due to network issues');
+        this.errorSubject.next('Server Offline');
           return of([]); 
       })
     );;
@@ -48,7 +48,7 @@ export class ProductService {
           return products;
         }
 
-        const searchTerm = query.toLowerCase().trim();
+        const searchTerm = query.toLowerCase().trim(); 
         return products.filter(product =>
           product.title.toLowerCase().includes(searchTerm) ||
           product.description.toLowerCase().includes(searchTerm) ||
